@@ -11,7 +11,7 @@ class Slot {
 
     public static function User_login()
     {
-        $form = Model::loginForm();
+        $form = FormModel::loginForm();
         $data = array (
             'form' => $form
         );
@@ -19,7 +19,7 @@ class Slot {
     }
     public static function User_passwordReset()
     {
-        $form = Model::passwordResetForm();
+        $form = FormModel::passwordResetForm();
         $data = array (
             'form' => $form
         );
@@ -27,7 +27,7 @@ class Slot {
     }
     public static function User_profile()
     {
-        $form = Model::profileForm();
+        $form = FormModel::profileForm();
         $data = array (
             'form' => $form
         );
@@ -35,7 +35,7 @@ class Slot {
     }
     public static function User_registration()
     {
-        $form = Model::registrationForm();
+        $form = FormModel::registrationForm();
         $data = array (
             'form' => $form
         );
@@ -44,7 +44,7 @@ class Slot {
 
     public static function User_logout()
     {
-        $form = Model::logoutForm();
+        $form = FormModel::logoutForm();
         $data = array (
             'form' => $form
         );

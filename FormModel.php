@@ -8,11 +8,18 @@
 namespace Plugin\User;
 
 
-class Model {
+class FormModel {
 
     public static function loginForm()
     {
         $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.login'
+            ));
+        $form->addField($field);
 
         $field = new \Ip\Form\Field\Text(
             array(
@@ -45,6 +52,14 @@ class Model {
     {
         $form = new \Ip\Form();
 
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.register'
+            ));
+        $form->addField($field);
+
+
         $field = new \Ip\Form\Field\Email(
             array(
                 'name' => 'email', // HTML "name" attribute
@@ -74,6 +89,15 @@ class Model {
     public static function passwordResetForm()
     {
         $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.passwordReset'
+            ));
+        $form->addField($field);
+
+
 
         $field = new \Ip\Form\Field\Text(
             array(
@@ -108,6 +132,15 @@ class Model {
     {
         $form = new \Ip\Form();
 
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.update'
+            ));
+        $form->addField($field);
+
+
+
         $field = new \Ip\Form\Field\Text(
             array(
                 'name' => 'username', // HTML "name" attribute
@@ -141,6 +174,15 @@ class Model {
     public static function passwordUpdateForm()
     {
         $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.updatePassword'
+            ));
+        $form->addField($field);
+
+
 
         $field = new \Ip\Form\Field\Password(
             array(
