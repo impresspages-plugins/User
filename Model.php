@@ -28,6 +28,14 @@ class Model {
             ));
         $form->addField($field);
 
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'login', // HTML "name" attribute
+                'value' => __('Login', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
         $form = ipFilter('User_loginForm', $form);
 
         return $form;
@@ -48,6 +56,13 @@ class Model {
             array(
                 'name' => 'password', // HTML "name" attribute
                 'label' => __('Password', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'register', // HTML "name" attribute
+                'value' => __('Register', 'User', false) // Field label that will be displayed next to input field
             ));
         $form->addField($field);
 
@@ -74,7 +89,51 @@ class Model {
             ));
         $form->addField($field);
 
+
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'submit', // HTML "name" attribute
+                'value' => __('Submit', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
         $form = ipFilter('User_passwordResetForm', $form);
+
+        return $form;
+    }
+
+
+    public static function profileForm()
+    {
+        $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Text(
+            array(
+                'name' => 'username', // HTML "name" attribute
+                'label' => __('Username or email', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+
+        $field = new \Ip\Form\Field\Email(
+            array(
+                'name' => 'email', // HTML "name" attribute
+                'label' => __('Email', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'save', // HTML "name" attribute
+                'value' => __('Save', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+        $form = ipFilter('User_passwordResetForm', $form);
+
 
         return $form;
     }
@@ -90,6 +149,12 @@ class Model {
             ));
         $form->addField($field);
 
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'update', // HTML "name" attribute
+                'value' => __('Update', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
 
         $form = ipFilter('User_passwordUpdateForm', $form);
 
@@ -97,6 +162,29 @@ class Model {
 
     }
 
+    public static function logoutForm()
+    {
+        $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.logout'
+            ));
+        $form->addField($field);
+
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'logout', // HTML "name" attribute
+                'value' => __('Logout', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+        $form = ipFilter('User_logoutForm', $form);
+
+        return $form;
+    }
 
 
 }
