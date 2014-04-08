@@ -18,15 +18,17 @@ class Worker extends \Ip\PluginWorker
 
 CREATE TABLE IF NOT EXISTS $table (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL DEFAULT '',
+  `username` varchar(255) NULL,
   `hash` text NOT NULL,
   `email` varchar(255) NOT NULL DEFAULT '',
   `resetSecret` varchar(32) DEFAULT NULL,
   `resetTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
       ";
+        ipDb()->execute($sql);
     }
 
     public function deactivate()

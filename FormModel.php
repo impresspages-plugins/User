@@ -26,6 +26,7 @@ class FormModel {
                 'name' => 'username', // HTML "name" attribute
                 'label' => __('Username or email', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
         $field = new \Ip\Form\Field\Password(
@@ -33,6 +34,7 @@ class FormModel {
                 'name' => 'password', // HTML "name" attribute
                 'label' => __('Password', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
 
@@ -65,6 +67,8 @@ class FormModel {
                 'name' => 'email', // HTML "name" attribute
                 'label' => __('Email', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addAttribute('autocomplete', 'off');
+        $field->addvalidator('Required');
         $form->addField($field);
 
         $field = new \Ip\Form\Field\Password(
@@ -72,6 +76,8 @@ class FormModel {
                 'name' => 'password', // HTML "name" attribute
                 'label' => __('Password', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addAttribute('autocomplete', 'off');
+        $field->addvalidator('Required');
         $form->addField($field);
 
         $field = new \Ip\Form\Field\Submit(
@@ -104,6 +110,7 @@ class FormModel {
                 'name' => 'username', // HTML "name" attribute
                 'label' => __('Username or email', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
         $field = new \Ip\Form\Field\Captcha(
@@ -111,6 +118,7 @@ class FormModel {
                 'name' => 'captcha', // HTML "name" attribute
                 'label' => __('Prove you are a human', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
 
@@ -146,6 +154,7 @@ class FormModel {
                 'name' => 'username', // HTML "name" attribute
                 'label' => __('Username or email', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
 
@@ -154,6 +163,7 @@ class FormModel {
                 'name' => 'email', // HTML "name" attribute
                 'label' => __('Email', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
 
@@ -189,6 +199,7 @@ class FormModel {
                 'name' => 'newPassword', // HTML "name" attribute
                 'label' => __('New password', 'User', false) // Field label that will be displayed next to input field
             ));
+        $field->addvalidator('Required');
         $form->addField($field);
 
         $field = new \Ip\Form\Field\Submit(
