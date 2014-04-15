@@ -46,6 +46,7 @@ class SiteController extends \Ip\Controller
         $password = $data['password'];
 
         $userId = Service::add($username, $email, $password);
+        ipUser()->login($userId);
 
         $eventData = array(
             'username' => $username,
@@ -55,8 +56,17 @@ class SiteController extends \Ip\Controller
         );
         ipEvent('User_register', $eventData);
 
+        $redirect = ipConfig()->baseUrl();
+        $profilePage = ipContent()->getPage('User_profile');
+        if ($profilePage) {
+            $redirect = $profilePage->getLink();
+        }
+        ipFilter('User_registrationRedirectUrl', $redirect, $eventData);
+
+
         $data = array (
             'status' => 'ok',
+            'redirectUrl' => $redirect,
             'id' => $userId
         );
         return new \Ip\Response\Json($data);

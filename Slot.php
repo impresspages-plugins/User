@@ -35,11 +35,16 @@ class Slot {
     }
     public static function User_registration()
     {
-        $form = FormModel::registrationForm();
-        $data = array (
-            'form' => $form
-        );
-        return ipView('view/registration.php', $data)->render();
+        if (ipUser()->loggedIn()) {
+            return '';
+        } else {
+            $form = FormModel::registrationForm();
+            $data = array (
+                'form' => $form
+            );
+            return ipView('view/registration.php', $data)->render();
+        }
+
     }
 
     public static function User_logout()
