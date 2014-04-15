@@ -142,4 +142,27 @@ class Model{
         return $hasher->CheckPassword($password, $storedHash);
     }
 
+    public static function setRedirectAfterLogin($url)
+    {
+        ipStorage()->set('User', 'redirectAfterLogin', $url);
+    }
+
+    public static function getRedirectAfterLogin($url)
+    {
+        ipStorage()->get('User', 'redirectAfterLogin');
+    }
+
+    public static function removeRedirectAfterLogin()
+    {
+        ipStorage()->remove('User', 'redirectAfterLogin');
+    }
+
+    public static function loginUrl()
+    {
+        $loginPage = ipContent()->getPage('User_login');
+        if (!$loginPage) {
+            return '';
+        }
+        return $loginPage->getLink();
+    }
 }

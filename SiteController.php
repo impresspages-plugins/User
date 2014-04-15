@@ -20,7 +20,7 @@ class SiteController extends \Ip\Controller
 
         $errors = $form->validate($post);
 
-        if (Model::getByUsername(ipRequest()->getPost('username'))) {
+        if (ipRequest()->getPost('username') && Model::getByUsername(ipRequest()->getPost('username'))) {
             $errors['username'] = __("This username is already taken", 'User', false);
         }
         if (Model::getByEmail(ipRequest()->getPost('email'))) {
@@ -66,71 +66,96 @@ class SiteController extends \Ip\Controller
     {
         ipRequest()->mustBePost();
 
-        $userId = ipRequest()->getPost('id');
-
-        if (!$userId) {
-            throw new \Ip\Exception('Missing required parameters');
+        if (!ipUser()->loggedIn()) {
+            //redirect to login page
+            if (!empty($_SERVER['HTTP_REFERER'])) {
+                Model::setRedirectAfterLogin($_SERVER['HTTP_REFERER']);
+            }
+            $data = array (
+                'status' => 'error',
+                'redirectUrl' => Model::loginUrl()
+            );
+            return new \Ip\Response\Json($data);
         }
 
-        if ($userId == ipAdminId()) {
-            throw new \Ip\Exception("Can't delete yourself");
-        }
-
-        Service::delete($userId);
-
-        $data = array (
-            'status' => 'ok'
-        );
-        return new \Ip\Response\Json($data);
+//        $userId = ipRequest()->getPost('id');
+//
+//        if (!$userId) {
+//            throw new \Ip\Exception('Missing required parameters');
+//        }
+//
+//        if ($userId == ipAdminId()) {
+//            throw new \Ip\Exception("Can't delete yourself");
+//        }
+//
+//        Service::delete($userId);
+//
+//        $data = array (
+//            'status' => 'ok'
+//        );
+//        return new \Ip\Response\Json($data);
     }
 
     public function update()
     {
         ipRequest()->mustBePost();
-        $post = ipRequest()->getPost();
 
-        if (!isset($post['id']) || !isset($post['username']) || !isset($post['email'])) {
-            throw new \Ip\Exception('Missing required parameters');
-        }
-
-
-
-        $form = FormModel::profileForm();
-        $form->removeSpamCheck();
-        $errors = $form->validate($post);
-
-        $userId = $post['id'];
-        $username = $post['username'];
-        $email = $post['email'];
-        if (isset($post['password'])) {
-            $password = $post['password'];
-        } else {
-            $password = null;
-        }
-
-
-        $existingUser = Service::getByUsername($username);
-        if ($existingUser && $existingUser['id'] != $userId) {
-            $errors['username'] = __('Already taken', 'Ip-admin', false);
-        }
-
-        $errors = ipFilter('User_profileFormValidate', $errors, array('post' => $post));
-
-
-        if ($errors) {
+        if (!ipUser()->loggedIn()) {
+            //redirect to login page
+            if (!empty($_SERVER['HTTP_REFERER'])) {
+                Model::setRedirectAfterLogin($_SERVER['HTTP_REFERER']);
+            }
             $data = array (
                 'status' => 'error',
-                'errors' => $errors
+                'redirectUrl' => Model::loginUrl()
             );
             return new \Ip\Response\Json($data);
         }
 
-        Service::update($userId, $username, $email, $password);
+        $post = ipRequest()->getPost();
 
-        $data = array (
-            'status' => 'ok'
-        );
-        return new \Ip\Response\Json($data);
+//        if (!isset($post['id']) || !isset($post['username']) || !isset($post['email'])) {
+//            throw new \Ip\Exception('Missing required parameters');
+//        }
+//
+//
+//
+//        $form = FormModel::profileForm();
+//        $form->removeSpamCheck();
+//        $errors = $form->validate($post);
+//
+//        $userId = $post['id'];
+//        $username = $post['username'];
+//        $email = $post['email'];
+//        if (isset($post['password'])) {
+//            $password = $post['password'];
+//        } else {
+//            $password = null;
+//        }
+//
+//
+//        $existingUser = Service::getByUsername($username);
+//        if ($existingUser && $existingUser['id'] != $userId) {
+//            $errors['username'] = __('Already taken', 'Ip-admin', false);
+//        }
+//
+//        $errors = ipFilter('User_profileFormValidate', $errors, array('post' => $post));
+//
+//
+//        if ($errors) {
+//            $data = array (
+//                'status' => 'error',
+//                'errors' => $errors
+//            );
+//            return new \Ip\Response\Json($data);
+//        }
+//
+//        Service::update($userId, $username, $email, $password);
+//
+//        $data = array (
+//            'status' => 'ok'
+//        );
+//        return new \Ip\Response\Json($data);
     }
 
 

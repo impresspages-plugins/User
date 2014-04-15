@@ -152,7 +152,7 @@ class FormModel {
         $field = new \Ip\Form\Field\Text(
             array(
                 'name' => 'username', // HTML "name" attribute
-                'label' => __('Username or email', 'User', false) // Field label that will be displayed next to input field
+                'label' => __('Username', 'User', false) // Field label that will be displayed next to input field
             ));
         $field->addvalidator('Required');
         $form->addField($field);
