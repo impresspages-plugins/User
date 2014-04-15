@@ -11,11 +11,15 @@ class Slot {
 
     public static function User_login()
     {
-        $form = FormModel::loginForm();
-        $data = array (
-            'form' => $form
-        );
-        return ipView('view/login.php', $data)->render();
+        if (ipUser()->loggedIn()) {
+            return '';
+        } else {
+            $form = FormModel::loginForm();
+            $data = array (
+                'form' => $form
+            );
+            return ipView('view/login.php', $data)->render();
+        }
     }
     public static function User_passwordReset()
     {

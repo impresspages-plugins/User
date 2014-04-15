@@ -180,7 +180,7 @@ class SiteController extends \Ip\Controller
             $redirect = $_SERVER["HTTP_REFERER"];
         }
         $data = array(
-            $user = $userId
+            'userId' => $userId
         );
         ipFilter('User_logoutRedirectUrl', $redirect, $data);
 
@@ -191,6 +191,60 @@ class SiteController extends \Ip\Controller
             'id' => $userId
         );
         return new \Ip\Response\Json($data);
+    }
+
+    public function login()
+    {
+        $user = null;
+        if (ipRequest()->getPost('username')){
+            $user = Service::getByEmail(ipRequest()->getPost('username'));
+            if (!$user) {
+                $errors['username'] = __('Following user doesn\'t exist', 'User', false);
+            }
+        } elseif(ipRequest()->getPost('email')) {
+            $user = Service::getByEmail(ipRequest()->getPost('email'));
+            if (!$user) {
+                $errors['email'] = __('Following user doesn\'t exist', 'User', false);
+            }
+        }
+
+        if (empty($errors) && !Service::checkPassword($user['id'], ipRequest()->getPost('password'))) {
+            $errors['password'] = __('Incorrect password', 'User', false);
+        }
+
+        if (!empty($errors)) {
+            $data = array (
+                'status' => 'error',
+                'errors' => $errors
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+
+        ipUser()->login($user['id']);
+
+        $redirect = ipConfig()->baseUrl();
+        if (!empty($_SERVER["HTTP_REFERER"])) {
+            $redirect = $_SERVER["HTTP_REFERER"];
+        }
+        if (isset($_SESSION['User_redirectAfterLogin'])) {
+            $redirect = $_SESSION['User_redirectAfterLogin'];
+        }
+        $data = array(
+            'userId' => $user['id']
+        );
+        ipFilter('User_loginRedirectUrl', $redirect, $data);
+
+
+        $data = array (
+            'status' => 'ok',
+            'redirectUrl' => $redirect,
+            'id' => $user['id']
+        );
+        return new \Ip\Response\Json($data);
+
+
+
     }
 
 }
