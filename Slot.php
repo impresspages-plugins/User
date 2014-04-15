@@ -67,4 +67,18 @@ class Slot {
             return '';
         }
     }
+
+
+    public static function User_delete()
+    {
+        if (ipUser()->loggedIn()) {
+            $form = FormModel::deleteForm();
+            $data = array (
+                'form' => $form
+            );
+            return ipView('view/delete.php', $data)->render();
+        } else {
+            return '';
+        }
+    }
 }

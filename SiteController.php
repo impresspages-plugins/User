@@ -90,22 +90,46 @@ class SiteController extends \Ip\Controller
 
 
 
-//        $userId = ipRequest()->getPost('id');
-//
-//        if (!$userId) {
-//            throw new \Ip\Exception('Missing required parameters');
-//        }
-//
-//        if ($userId == ipAdminId()) {
-//            throw new \Ip\Exception("Can't delete yourself");
-//        }
-//
-//        Service::delete($userId);
-//
-//        $data = array (
-//            'status' => 'ok'
-//        );
-//        return new \Ip\Response\Json($data);
+        $userId = ipUser()->userId();
+
+        $post = ipRequest()->getPost();
+
+        $form = FormModel::deleteForm();
+
+        $errors = $form->validate($post);
+
+        $errors = ipFilter('User_deleteFormValidate', $errors, array('post' => $post));
+
+        if (!empty($errors)) {
+            $data = array (
+                'status' => 'error',
+                'errors' => $errors
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+
+        $eventData = array (
+            'userId' => ipUser()->userId()
+        );
+
+        ipEvent('User_delete', $eventData);
+
+
+        ipUser()->logout();
+        Service::delete($userId);
+
+        $redirect = ipConfig()->baseUrl();
+        ipFilter('User_deleteRedirectUrl', $redirect, $eventData);
+
+
+        $data = array (
+            'status' => 'ok',
+            'redirectUrl' => $redirect
+        );
+
+        return new \Ip\Response\Json($data);
+
     }
 
     public function update()
@@ -166,46 +190,6 @@ class SiteController extends \Ip\Controller
         return new \Ip\Response\Json($data);
 
 
-
-//
-//
-//
-//        $form = FormModel::profileForm();
-//        $form->removeSpamCheck();
-//        $errors = $form->validate($post);
-//
-//        $userId = $post['id'];
-//        $username = $post['username'];
-//        $email = $post['email'];
-//        if (isset($post['password'])) {
-//            $password = $post['password'];
-//        } else {
-//            $password = null;
-//        }
-//
-//
-//        $existingUser = Service::getByUsername($username);
-//        if ($existingUser && $existingUser['id'] != $userId) {
-//            $errors['username'] = __('Already taken', 'Ip-admin', false);
-//        }
-//
-//        $errors = ipFilter('User_profileFormValidate', $errors, array('post' => $post));
-//
-//
-//        if ($errors) {
-//            $data = array (
-//                'status' => 'error',
-//                'errors' => $errors
-//            );
-//            return new \Ip\Response\Json($data);
-//        }
-//
-//        Service::update($userId, $username, $email, $password);
-//
-//        $data = array (
-//            'status' => 'ok'
-//        );
-//        return new \Ip\Response\Json($data);
     }
 
 

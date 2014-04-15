@@ -259,4 +259,29 @@ class FormModel {
     }
 
 
+    public static function deleteForm()
+    {
+        $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.delete'
+            ));
+        $form->addField($field);
+
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'delete', // HTML "name" attribute
+                'value' => __('Delete profile', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+        $form = ipFilter('User_deleteForm', $form);
+
+        return $form;
+    }
+
+
 }
