@@ -49,10 +49,14 @@ class Slot {
 
     public static function User_logout()
     {
-        $form = FormModel::logoutForm();
-        $data = array (
-            'form' => $form
-        );
-        return ipView('view/logout.php', $data)->render();
+        if (ipUser()->loggedIn()) {
+            $form = FormModel::logoutForm();
+            $data = array (
+                'form' => $form
+            );
+            return ipView('view/logout.php', $data)->render();
+        } else {
+            return '';
+        }
     }
 }

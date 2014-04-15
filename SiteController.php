@@ -169,4 +169,28 @@ class SiteController extends \Ip\Controller
     }
 
 
+    public function logout()
+    {
+        $userId = ipUser()->userId();
+        ipUser()->logout();
+
+
+        $redirect = ipConfig()->baseUrl();
+        if (!empty($_SERVER["HTTP_REFERER"])) {
+            $redirect = $_SERVER["HTTP_REFERER"];
+        }
+        $data = array(
+            $user = $userId
+        );
+        ipFilter('User_logoutRedirectUrl', $redirect, $data);
+
+
+        $data = array (
+            'status' => 'ok',
+            'redirectUrl' => $redirect,
+            'id' => $userId
+        );
+        return new \Ip\Response\Json($data);
+    }
+
 }
