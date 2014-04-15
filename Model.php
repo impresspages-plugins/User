@@ -78,17 +78,14 @@ class Model{
         ipDb()->update('user', array('hash' => self::passwordHash($password)), array('id' => $userId));
     }
 
-    public static function update($userId, $username, $email, $password)
+    public static function update($userId, $data)
     {
-        $data = array(
-            'email' => $email,
-            'username' => $username
-        );
+        $data = array_intersect($data, array('username', 'email'));
 
-        if ($password) {
-            $data['hash'] = self::passwordHash($password);
+        if (isset($data['password'])) {
+            $data['hash'] = self::passwordHash($data['password']);
+            unset($data['password']);
         }
-
         ipDb()->update('user', $data, array('id' => $userId));
     }
 

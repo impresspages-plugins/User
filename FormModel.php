@@ -138,6 +138,15 @@ class FormModel {
 
     public static function profileForm()
     {
+        $userId = ipUser()->userId();
+        if (!$userId) {
+            throw new \Ip\Exception('User is not logged in');
+        }
+        $userData = Service::get($userId);
+        if (!$userData) {
+            throw new \Ip\Exception('User doesn\'t exist');
+        }
+
         $form = new \Ip\Form();
 
         $field = new \Ip\Form\Field\Hidden(
@@ -147,21 +156,31 @@ class FormModel {
             ));
         $form->addField($field);
 
-
-
-        $field = new \Ip\Form\Field\Text(
+        $field = new \Ip\Form\Field\Hidden(
             array(
-                'name' => 'username', // HTML "name" attribute
-                'label' => __('Username', 'User', false) // Field label that will be displayed next to input field
+                'name' => 'id', // HTML "name" attribute
+                'value' => $userData['id']
             ));
         $field->addvalidator('Required');
         $form->addField($field);
 
 
+
+//        $field = new \Ip\Form\Field\Text(
+//            array(
+//                'name' => 'username', // HTML "name" attribute
+//                'label' => __('Username', 'User', false), // Field label that will be displayed next to input field
+//                'value' => $userData['username']
+//            ));
+//        $field->addvalidator('Required');
+//        $form->addField($field);
+
+
         $field = new \Ip\Form\Field\Email(
             array(
                 'name' => 'email', // HTML "name" attribute
-                'label' => __('Email', 'User', false) // Field label that will be displayed next to input field
+                'label' => __('Email', 'User', false), // Field label that will be displayed next to input field
+                'value' => $userData['email']
             ));
         $field->addvalidator('Required');
         $form->addField($field);

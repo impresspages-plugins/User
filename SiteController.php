@@ -88,6 +88,8 @@ class SiteController extends \Ip\Controller
             return new \Ip\Response\Json($data);
         }
 
+
+
 //        $userId = ipRequest()->getPost('id');
 //
 //        if (!$userId) {
@@ -124,9 +126,47 @@ class SiteController extends \Ip\Controller
 
         $post = ipRequest()->getPost();
 
-//        if (!isset($post['id']) || !isset($post['username']) || !isset($post['email'])) {
-//            throw new \Ip\Exception('Missing required parameters');
-//        }
+        $form = FormModel::profileForm();
+
+        $errors = $form->validate($post);
+
+        if (!empty($post['id'])) {
+            $user = Service::get($post['id']);
+            if (!$user) {
+                $errors['id'] = "User doesn't exist"; // should never happen
+            }
+        }
+
+        $errors = ipFilter('User_profileFormValidate', $errors, array('post' => $post));
+
+        if (!empty($errors)) {
+            $data = array (
+                'status' => 'error',
+                'errors' => $errors
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+
+
+        $data = $form->filterValues($post);
+
+        Service::update($user['id'], $data);
+
+        $eventData = array(
+            'postData' => $data
+        );
+        ipEvent('User_profileUpdate', $eventData);
+
+
+        $data = array (
+            'status' => 'ok',
+            'id' => $user['id']
+        );
+        return new \Ip\Response\Json($data);
+
+
+
 //
 //
 //
@@ -171,6 +211,7 @@ class SiteController extends \Ip\Controller
 
     public function logout()
     {
+        ipRequest()->mustBePost();
         $userId = ipUser()->userId();
         ipUser()->logout();
 
@@ -195,6 +236,7 @@ class SiteController extends \Ip\Controller
 
     public function login()
     {
+        ipRequest()->mustBePost();
         $user = null;
         if (ipRequest()->getPost('username')){
             $user = Service::getByEmail(ipRequest()->getPost('username'));
