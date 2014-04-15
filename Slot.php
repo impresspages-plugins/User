@@ -31,11 +31,15 @@ class Slot {
     }
     public static function User_profile()
     {
-        $form = FormModel::profileForm();
-        $data = array (
-            'form' => $form
-        );
-        return ipView('view/profile.php', $data)->render();
+        if (ipUser()->loggedIn()) {
+            $form = FormModel::profileForm();
+            $data = array (
+                'form' => $form
+            );
+            return ipView('view/profile.php', $data)->render();
+        } else {
+            return '';
+        }
     }
     public static function User_registration()
     {
