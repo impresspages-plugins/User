@@ -225,14 +225,16 @@ class SiteController extends \Ip\Controller
         if (ipRequest()->getPost('username')){
             $user = Service::getByEmail(ipRequest()->getPost('username'));
             if (!$user) {
-                $errors['username'] = __('Following user doesn\'t exist', 'User', false);
-            }
-        } elseif(ipRequest()->getPost('email')) {
-            $user = Service::getByEmail(ipRequest()->getPost('email'));
-            if (!$user) {
-                $errors['email'] = __('Following user doesn\'t exist', 'User', false);
+                $user = Service::getByUsername(ipRequest()->getPost('username'));
+                if (!$user) {
+                    $errors['username'] = __('Following user doesn\'t exist', 'User', false);
+                }
             }
         }
+
+        $post = ipRequest()->getPost();
+        $form = FormModel::loginForm();
+        $errors = $form->validate($post);
 
         if (empty($errors) && !Service::checkPassword($user['id'], ipRequest()->getPost('password'))) {
             $errors['password'] = __('Incorrect password', 'User', false);
@@ -271,6 +273,60 @@ class SiteController extends \Ip\Controller
 
 
 
+    }
+
+    public function passwordResetLink()
+    {
+        ipRequest()->mustBePost();
+        $user = null;
+        $post = ipRequest()->getPost();
+        $form = FormModel::passwordResetForm();
+        $errors = $form->validate($post);
+
+        if (ipRequest()->getPost('username')){
+            $user = Service::getByEmail(ipRequest()->getPost('username'));
+            if (!$user) {
+                $user = Service::getByUsername(ipRequest()->getPost('username'));
+                if (!$user) {
+                    $errors['username'] = __('Following user doesn\'t exist', 'User', false);
+                }
+            }
+        }
+
+
+
+        $errors = ipFilter('User_passwordResetFormValidate', $errors, array('post' => $post));
+
+        if (!empty($errors)) {
+            $data = array (
+                'status' => 'error',
+                'errors' => $errors
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+
+        Model::sendResetPasswordLink($user['id']);
+
+        $redirect = '';
+        $eventData = array(
+            'postData' => $post
+        );
+        ipFilter('User_passwordResetRedirectUrl', $redirect, $eventData);
+
+
+        $instructions = ipView('view/passwordResetInstructions.php')->render();
+        $data = array (
+            'status' => 'ok',
+            'replaceHtml' => $instructions,
+            'id' => $user['id']
+        );
+
+        if ($redirect) {
+            $data['redirectUrl'] = $redirect;
+        }
+
+        return new \Ip\Response\Json($data);
     }
 
 }

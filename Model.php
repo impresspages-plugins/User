@@ -47,7 +47,7 @@ class Model{
         }
 
         $urlData = array(
-            'sa' => 'Admin.passwordReset',
+            'sa' => 'User.passwordReset',
             'id' => $userId,
             'secret' => self::generatePasswordResetSecret($userId)
         );
