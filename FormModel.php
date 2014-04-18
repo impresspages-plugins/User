@@ -92,14 +92,14 @@ class FormModel {
         return $form;
     }
 
-    public static function passwordResetForm()
+    public static function passwordResetForm1()
     {
         $form = new \Ip\Form();
 
         $field = new \Ip\Form\Field\Hidden(
             array(
                 'name' => 'sa', // HTML "name" attribute
-                'value' => 'User.passwordResetLink'
+                'value' => 'User.passwordReset1'
             ));
         $form->addField($field);
 
@@ -127,6 +127,59 @@ class FormModel {
             array(
                 'name' => 'submit', // HTML "name" attribute
                 'value' => __('Submit', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $form->addField($field);
+
+        $form = ipFilter('User_passwordResetForm', $form);
+
+        return $form;
+    }
+
+    public static function passwordResetForm2($userId, $secret)
+    {
+        $form = new \Ip\Form();
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'sa', // HTML "name" attribute
+                'value' => 'User.passwordReset3'
+            ));
+        $form->addField($field);
+
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'userId', // HTML "name" attribute
+                'value' => $userId
+            ));
+        $form->addField($field);
+
+        $field = new \Ip\Form\Field\Hidden(
+            array(
+                'name' => 'secret', // HTML "name" attribute
+                'value' => $secret
+            ));
+        $form->addField($field);
+
+        $field = new \Ip\Form\Field\Blank(
+            array(
+                'name' => 'globalError'
+            ));
+        $form->addField($field);
+
+        $field = new \Ip\Form\Field\Password(
+            array(
+                'name' => 'password', // HTML "name" attribute
+                'label' => __('New password', 'User', false) // Field label that will be displayed next to input field
+            ));
+        $field->addvalidator('Required');
+        $form->addField($field);
+
+
+        $field = new \Ip\Form\Field\Submit(
+            array(
+                'name' => 'submit', // HTML "name" attribute
+                'value' => __('Save', 'User', false) // Field label that will be displayed next to input field
             ));
         $form->addField($field);
 

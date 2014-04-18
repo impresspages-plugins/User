@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS $table (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
       ";
         ipDb()->execute($sql);
+
     }
 
     public function deactivate()

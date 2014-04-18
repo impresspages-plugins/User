@@ -23,11 +23,11 @@ class Slot {
     }
     public static function User_passwordReset()
     {
-        $form = FormModel::passwordResetForm();
+        $form = FormModel::passwordResetForm1();
         $data = array (
             'form' => $form
         );
-        return ipView('view/passwordReset.php', $data)->render();
+        return ipView('view/passwordReset1.php', $data)->render();
     }
     public static function User_profile()
     {

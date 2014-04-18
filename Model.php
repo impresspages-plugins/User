@@ -4,6 +4,8 @@ namespace Plugin\User;
 
 class Model{
 
+    static $lastError;
+
     public static function get($id)
     {
         return ipDb()->selectRow('user', '*', array('id' => $id));
@@ -47,15 +49,15 @@ class Model{
         }
 
         $urlData = array(
-            'sa' => 'User.passwordReset',
-            'id' => $userId,
+            'userId' => $userId,
             'secret' => self::generatePasswordResetSecret($userId)
         );
 
         $contentData = array (
-            'link' => ipActionUrl($urlData)
+            'link' => ipRouteUrl('User_passwordReset2', $urlData)
         );
-        $content = ipView('view/passwordResetContent.php', $contentData)->render();
+
+        $content = ipView('view/passwordResetEmail.php', $contentData)->render();
 
         $emailData = array (
             'content' => $content
@@ -65,7 +67,7 @@ class Model{
 
         $from = ipGetOption('Config.websiteEmail');
         $fromName = ipGetOption('Config.websiteTitle');
-        $subject = __('Password reset instructions', 'Ip-admin', FALSE);
+        $subject = __('Password reset instructions', 'User', false);
         $to = $user['email'];
         $toName = $user['username'];
         ipSendEmail($from, $fromName, $to, $toName, $subject, $email);
@@ -90,22 +92,25 @@ class Model{
     }
 
 
-    public static function resetPassword($userId, $secret, $password)
+    public static function validPasswordResetSecret($userId, $secret)
     {
         $user = self::get($userId);
         if (!$user) {
-            throw new \Ip\Exception(__('User doesn\'t exist', 'Ip-admin', FALSE));
+            self::$lastError = __('User doesn\'t exist', 'User', false);
+            return false;
         }
 
         if (empty($user['resetSecret']) || $user['resetTime'] < time() - ipGetOption('Config.passwordResetLinkExpire', 60 * 60 * 24)) {
-            throw new \Ip\Exception(__('Invalid password reset link', 'Ip-admin', FALSE));
+            self::$lastError = __('Password reset link has expired', 'User', false);
+            return false;
         }
 
         if ($user['resetSecret'] != $secret) {
-            throw new \Ip\Exception(__('Password reset link has expired', 'Ip-admin', FALSE));
+            self::$lastError = __('Invalid password reset link', 'User', false);
+            return false;
         }
 
-        ipDb()->update('user', array('hash' => self::passwordHash($password)), array('id' => $userId));
+        return true;
     }
 
     private static function generatePasswordResetSecret($userId)
@@ -117,6 +122,15 @@ class Model{
         );
         ipDb()->update('user', $data, array('id' => $userId));
         return $secret;
+    }
+
+    public static function removePasswordResetSecret($userId)
+    {
+        $data = array(
+            'resetSecret' => '',
+            'resetTime' => 0
+        );
+        ipDb()->update('user', $data, array('id' => $userId));
     }
 
     public static function checkPassword($userId, $password)
@@ -161,5 +175,10 @@ class Model{
             return '';
         }
         return $loginPage->getLink();
+    }
+
+    public static function getError()
+    {
+        return self::$lastError;
     }
 }

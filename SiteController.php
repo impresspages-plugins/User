@@ -275,12 +275,12 @@ class SiteController extends \Ip\Controller
 
     }
 
-    public function passwordResetLink()
+    public function passwordReset1()
     {
         ipRequest()->mustBePost();
         $user = null;
         $post = ipRequest()->getPost();
-        $form = FormModel::passwordResetForm();
+        $form = FormModel::passwordResetForm1();
         $errors = $form->validate($post);
 
         if (ipRequest()->getPost('username')){
@@ -315,7 +315,7 @@ class SiteController extends \Ip\Controller
         ipFilter('User_passwordResetRedirectUrl', $redirect, $eventData);
 
 
-        $instructions = ipView('view/passwordResetInstructions.php')->render();
+        $instructions = ipView('view/passwordReset1Instructions.php')->render();
         $data = array (
             'status' => 'ok',
             'replaceHtml' => $instructions,
@@ -327,6 +327,67 @@ class SiteController extends \Ip\Controller
         }
 
         return new \Ip\Response\Json($data);
+    }
+
+
+
+    public function passwordReset2($userId, $secret)
+    {
+        $passwordResetForm = FormModel::passwordResetForm2($userId, $secret);
+
+        $data = array (
+            'userId' => $userId,
+            'secret' => $secret,
+            'form' => $passwordResetForm
+        );
+
+        $response = ipView('view/passwordReset2.php', $data);
+
+        $response = ipFilter('User_passwordReset2', $response, array('userId' => $userId));
+        return $response;
+    }
+
+
+
+    public function passwordReset3()
+    {
+
+        ipRequest()->mustBePost();
+
+        $validateForm = FormModel::passwordResetForm2(null, null);
+        $post = ipRequest()->getPost();
+        $errors = $validateForm->validate($post);
+
+        $password = ipRequest()->getPost('password');
+        if (!Model::validPasswordResetSecret($post['userId'], $post['secret'])) {
+            $errors['globalError'] = Model::getError();
+        }
+
+        $errors = ipFilter('User_passwordResetValidate', $errors, array('post' => $post));
+
+        if (!empty($errors)) {
+            $data = array (
+                'status' => 'error',
+                'errors' => $errors
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+
+        Model::setUserPassword($post['userId'], $post['password']);
+        Model::removePasswordResetSecret($post['userId']);
+
+        $data = array (
+            'userId' => $post['userId']
+        );
+        $replaceHtml = ipView('view/passwordResetSuccess.php', $data)->render();
+
+        $data = array (
+            'status' => 'ok',
+            'replaceHtml' => $replaceHtml
+        );
+        return new \Ip\Response\Json($data);
+
     }
 
 }
