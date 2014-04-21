@@ -1,5 +1,10 @@
 <?php
 
+$routes['passwordReset'] = array(
+    'name' => 'User_passwordReset1',
+    'controller' => 'SiteController',
+    'action' => 'passwordReset'
+);
 
 $routes['passwordReset/{userId}/{secret}'] = array(
     'name' => 'User_passwordReset2',
@@ -12,4 +17,10 @@ $routes['registration'] = array(
     'controller' => 'SiteController',
     'action' => 'registration'
 );
+
+
+
+
+
+
 
