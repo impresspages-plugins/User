@@ -7,24 +7,9 @@ $routes['passwordReset/{userId}/{secret}'] = array(
     'action' => 'passwordReset2'
 );
 
-$routes['hello-world'] = function() {
-    return 'Hello world!';
-};
-
-$routes['test'] = array(
-    'name' => 'asdfadf',
-    'action' => function() {
-            return 'test';
-        }
+$routes['registration'] = array(
+    'name' => 'User_registration',
+    'controller' => 'SiteController',
+    'action' => 'registration'
 );
-
-
-
-
-//$routes['passwordReset/{userId}/{secret}'] = array(
-//    'name' => 'User_passwordReset',
-//    'controller' => 'SiteController',
-//    'action' => 'passwordReset'
-//);
-
 

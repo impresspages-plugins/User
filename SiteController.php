@@ -10,6 +10,10 @@ namespace Plugin\User;
 class SiteController extends \Ip\Controller
 {
 
+    public function registration()
+    {
+        return ipSlot('User_registration');
+    }
 
     public function register()
     {
