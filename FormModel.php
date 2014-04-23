@@ -17,7 +17,7 @@ class FormModel {
         $field = new \Ip\Form\Field\Hidden(
             array(
                 'name' => 'sa', // HTML "name" attribute
-                'value' => 'User.login'
+                'value' => 'User.loginAjax'
             ));
         $form->addField($field);
 

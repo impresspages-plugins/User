@@ -9,6 +9,10 @@ namespace Plugin\User;
 
 class SiteController extends \Ip\Controller
 {
+    public function login()
+    {
+        return ipSlot('User_login');
+    }
 
     public function registration()
     {
@@ -227,7 +231,7 @@ class SiteController extends \Ip\Controller
         return new \Ip\Response\Json($data);
     }
 
-    public function login()
+    public function loginAjax()
     {
         ipRequest()->mustBePost();
         $user = null;

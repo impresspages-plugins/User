@@ -18,7 +18,11 @@ $routes['registration'] = array(
     'action' => 'registration'
 );
 
-
+$routes['login'] = array(
+    'name' => 'User_login',
+    'controller' => 'SiteController',
+    'action' => 'login'
+);
 
 
 
