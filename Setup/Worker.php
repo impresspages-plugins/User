@@ -8,7 +8,7 @@
 namespace Plugin\User\Setup;
 
 
-class Worker extends \Ip\PluginWorker
+class Worker
 {
 
     public function activate()
