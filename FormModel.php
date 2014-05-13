@@ -247,7 +247,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_passwordResetForm', $form);
+        $form = ipFilter('User_profileForm', $form);
 
 
         return $form;
