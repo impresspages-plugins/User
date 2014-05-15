@@ -10,6 +10,12 @@
             "name": "urlAfterLogin",
             "type": "text",
             "default": ""
+        },
+        {
+            "label": "Url after registration",
+            "name": "urlAfterRegistration",
+            "type": "text",
+            "default": ""
         }
     ]
 }

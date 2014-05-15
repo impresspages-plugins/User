@@ -81,10 +81,12 @@ class SiteController extends \Ip\Controller
         ipEvent('User_register', $eventData);
 
         $redirect = ipConfig()->baseUrl();
-        $profilePage = ipContent()->getPage('User_profile');
-        if ($profilePage) {
-            $redirect = $profilePage->getLink();
+
+        if (ipGetOption('User.urlAfterRegistration')) {
+            $redirect = ipGetOption('User.urlAfterRegistration');
         }
+
+
         ipFilter('User_registrationRedirectUrl', $redirect, $eventData);
 
 
