@@ -24,6 +24,11 @@ class SiteController extends \Ip\Controller
         return ipSlot('User_passwordReset');
     }
 
+    public function profile()
+    {
+        return ipSlot('User_profile');
+    }
+
     public function register()
     {
         ipRequest()->mustBePost();

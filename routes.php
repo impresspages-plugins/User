@@ -24,6 +24,11 @@ $routes['login'] = array(
     'action' => 'login'
 );
 
+$routes['profile'] = array(
+    'name' => 'User_profile',
+    'controller' => 'SiteController',
+    'action' => 'profile'
+);
 
 
 
