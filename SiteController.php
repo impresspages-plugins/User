@@ -265,9 +265,17 @@ class SiteController extends \Ip\Controller
         ipUser()->login($user['id']);
 
         $redirect = ipConfig()->baseUrl();
+
         if (!empty($_SERVER["HTTP_REFERER"])) {
             $redirect = $_SERVER["HTTP_REFERER"];
         }
+
+        if (ipGetOption('User.urlAfterLogin')) {
+            $redirect = ipGetOption('User.urlAfterLogin');
+        }
+
+
+
         if (isset($_SESSION['User_redirectAfterLogin'])) {
             $redirect = $_SESSION['User_redirectAfterLogin'];
             unset($_SESSION['User_redirectAfterLogin']);

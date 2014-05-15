@@ -3,5 +3,13 @@
     "version": "1.00",
     "name": "User",
     "description": "Official user plugin. Registration, login, profile.",
-    "author": "ImpressPages"
+    "author": "ImpressPages",
+    "options": [
+        {
+            "label": "Url after login",
+            "name": "urlAfterLogin",
+            "type": "text",
+            "default": ""
+        }
+    ]
 }
