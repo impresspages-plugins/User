@@ -270,6 +270,7 @@ class SiteController extends \Ip\Controller
         }
         if (isset($_SESSION['User_redirectAfterLogin'])) {
             $redirect = $_SESSION['User_redirectAfterLogin'];
+            unset($_SESSION['User_redirectAfterLogin']);
         }
         $data = array(
             'userId' => $user['id']

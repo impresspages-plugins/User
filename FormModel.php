@@ -238,6 +238,7 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+        $form = ipFilter('User_profileForm', $form);
 
 
         $field = new \Ip\Form\Field\Submit(
@@ -247,7 +248,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_profileForm', $form);
+        $form = ipFilter('User_profileForm2', $form);
 
 
         return $form;
