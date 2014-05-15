@@ -227,9 +227,11 @@ class SiteController extends \Ip\Controller
 
 
         $redirect = ipConfig()->baseUrl();
-        if (!empty($_SERVER["HTTP_REFERER"])) {
-            $redirect = $_SERVER["HTTP_REFERER"];
+
+        if (ipGetOption('User.urlAfterLogout')) {
+            $redirect = ipGetOption('User.urlAfterLogout');
         }
+
         $data = array(
             'userId' => $userId
         );

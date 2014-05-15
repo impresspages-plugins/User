@@ -16,6 +16,12 @@
             "name": "urlAfterRegistration",
             "type": "text",
             "default": ""
+        },
+        {
+            "label": "Url after logout",
+            "name": "urlAfterLogout",
+            "type": "text",
+            "default": ""
         }
     ]
 }
