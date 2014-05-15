@@ -37,6 +37,7 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+        $form = ipFilter('User_loginForm', $form);
 
         $field = new \Ip\Form\Field\Submit(
             array(
@@ -45,7 +46,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_loginForm', $form);
+        $form = ipFilter('User_loginForm2', $form);
 
         return $form;
     }
@@ -80,6 +81,9 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+        $form = ipFilter('User_registrationForm', $form);
+
+
         $field = new \Ip\Form\Field\Submit(
             array(
                 'name' => 'register', // HTML "name" attribute
@@ -87,7 +91,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_registrationForm', $form);
+        $form = ipFilter('User_registrationForm2', $form);
 
         return $form;
     }
@@ -121,7 +125,7 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
-
+        $form = ipFilter('User_passwordResetForm', $form);
 
         $field = new \Ip\Form\Field\Submit(
             array(
@@ -130,7 +134,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_passwordResetForm', $form);
+        $form = ipFilter('User_passwordResetForm2', $form);
 
         return $form;
     }
@@ -175,6 +179,7 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+        $form = ipFilter('User_passwordResetForm', $form);
 
         $field = new \Ip\Form\Field\Submit(
             array(
@@ -183,7 +188,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_passwordResetForm', $form);
+        $form = ipFilter('User_passwordResetForm2', $form);
 
         return $form;
     }
@@ -275,6 +280,8 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+        $form = ipFilter('User_passwordUpdateForm', $form);
+
         $field = new \Ip\Form\Field\Submit(
             array(
                 'name' => 'update', // HTML "name" attribute
@@ -282,7 +289,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_passwordUpdateForm', $form);
+        $form = ipFilter('User_passwordUpdateForm2', $form);
 
         return $form;
 
@@ -299,6 +306,7 @@ class FormModel {
             ));
         $form->addField($field);
 
+        $form = ipFilter('User_logoutForm', $form);
 
         $field = new \Ip\Form\Field\Submit(
             array(
@@ -307,7 +315,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_logoutForm', $form);
+        $form = ipFilter('User_logoutForm2', $form);
 
         return $form;
     }
@@ -324,6 +332,7 @@ class FormModel {
             ));
         $form->addField($field);
 
+        $form = ipFilter('User_deleteForm', $form);
 
         $field = new \Ip\Form\Field\Submit(
             array(
@@ -332,7 +341,7 @@ class FormModel {
             ));
         $form->addField($field);
 
-        $form = ipFilter('User_deleteForm', $form);
+        $form = ipFilter('User_deleteForm2', $form);
 
         return $form;
     }

@@ -16,6 +16,9 @@ class SiteController extends \Ip\Controller
 
     public function registration()
     {
+        if (ipUser()->loggedIn()) {
+            return new \Ip\Response\Redirect(ipRouteUrl('User_profile'));
+        }
         return ipSlot('User_registration');
     }
 
@@ -26,6 +29,9 @@ class SiteController extends \Ip\Controller
 
     public function profile()
     {
+        if (!ipUser()->loggedIn()) {
+            return new \Ip\Response\Redirect(ipRouteUrl('User_login'));
+        }
         return ipSlot('User_profile');
     }
 
@@ -270,10 +276,6 @@ class SiteController extends \Ip\Controller
         ipUser()->login($user['id']);
 
         $redirect = ipConfig()->baseUrl();
-
-        if (!empty($_SERVER["HTTP_REFERER"])) {
-            $redirect = $_SERVER["HTTP_REFERER"];
-        }
 
         if (ipGetOption('User.urlAfterLogin')) {
             $redirect = ipGetOption('User.urlAfterLogin');
