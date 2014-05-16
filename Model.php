@@ -82,12 +82,13 @@ class Model{
 
     public static function update($userId, $data)
     {
-        $data = array_intersect($data, array('username', 'email'));
+        $data = array_intersect_key($data, array('username' => 1, 'email' => 1));
 
         if (isset($data['password'])) {
             $data['hash'] = self::passwordHash($data['password']);
             unset($data['password']);
         }
+
         ipDb()->update('user', $data, array('id' => $userId));
     }
 
