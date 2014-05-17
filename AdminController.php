@@ -7,12 +7,11 @@ class AdminController extends \Ip\GridController
     protected function config()
     {
 
-        return array(
+        $gridConfig = array(
             'title' => __('Users', 'User', false),
             'table' => 'user',
             'sortField' => 'id',
             'createPosition' => 'top',
-            'pageSize' => 5,
             'allowCreate' => false,
             'allowUpdate' => false,
             'allowDelete' => false,
@@ -31,6 +30,9 @@ class AdminController extends \Ip\GridController
                 ),
             )
         );
+
+        $gridConfig = ipFilter('User_adminGridConfig', $gridConfig);
+        return $gridConfig;
     }
 
 }
