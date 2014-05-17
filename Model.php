@@ -18,7 +18,9 @@ class Model{
 
     public static function delete($id)
     {
+        ipEvent('User_beforeDelete', array('id' => $id));
         ipDb()->delete('user', array('id' => $id));
+        ipEvent('User_deleted', array('id' => $id));
     }
 
     public static function getByUsername($username)
@@ -38,6 +40,7 @@ class Model{
             'email' => $email,
             'hash' => self::passwordHash($password)
         );
+        ipEvent('User_created', $data);
         return ipDb()->insert('user', $data);
     }
 
