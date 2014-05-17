@@ -82,7 +82,7 @@ class Model{
 
     public static function update($userId, $data)
     {
-        $data = array_intersect_key($data, array('username' => 1, 'email' => 1));
+        $data = array_intersect_key($data, array('username' => 1, 'email' => 1, 'password' => 1));
 
         if (isset($data['password'])) {
             $data['hash'] = self::passwordHash($data['password']);

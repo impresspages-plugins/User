@@ -25,6 +25,7 @@ class GridHelper
         //remove username and email as these fields will be updated by beforeUpdate.
         unset($data['username']);
         unset($data['email']);
+        unset($data['password']);
         return $data;
     }
 }
