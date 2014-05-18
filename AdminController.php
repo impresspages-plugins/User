@@ -30,7 +30,8 @@ class AdminController extends \Ip\GridController
                 array(
                     'label' => __('Password', 'User', false),
                     'field' => 'hash',
-                    'type' => 'Password'
+                    'type' => 'Password',
+                    'preview' => false
                 ),
             ),
             'beforeDelete' => array('Plugin\User\GridHelper', 'beforeDelete'),
