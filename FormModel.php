@@ -13,6 +13,7 @@ class FormModel {
     public static function loginForm()
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -54,6 +55,7 @@ class FormModel {
     public static function registrationForm()
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -99,6 +101,7 @@ class FormModel {
     public static function passwordResetForm1()
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -142,6 +145,7 @@ class FormModel {
     public static function passwordResetForm2($userId, $secret)
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -206,6 +210,7 @@ class FormModel {
         }
 
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -262,6 +267,7 @@ class FormModel {
     public static function passwordUpdateForm()
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -298,6 +304,7 @@ class FormModel {
     public static function logoutForm()
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -324,6 +331,7 @@ class FormModel {
     public static function deleteForm()
     {
         $form = new \Ip\Form();
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
