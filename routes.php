@@ -31,5 +31,9 @@ $routes['profile'] = array(
 );
 
 
-
+$routes['loginAsUser/{userId}'] = array(
+    'name' => 'User_loginAsUser',
+    'controller' => 'AdminController',
+    'action' => 'loginAsUser'
+);
 

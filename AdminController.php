@@ -16,6 +16,16 @@ class AdminController extends \Ip\GridController
             'allowSort' => false,
             'fields' => array(
                 array(
+                    'label' => '',
+                    'field' => 'id',
+                    'preview' => function ($value, $recordData)
+                        {
+                            $manageUrl = ipRouteUrl('User_loginAsUser', array('userId'=> $recordData['id']));
+                            return '<a target="_blank" class="btn btn-default" href="' . $manageUrl . '" >' . __('Login', 'User') . '</a>';
+                        },
+                    'allowSearch' => false
+                ),
+                array(
                     'label' => __('Id', 'User', false),
                     'field' => 'id',
                     'allowUpdate' => false
@@ -32,7 +42,7 @@ class AdminController extends \Ip\GridController
                     'field' => 'hash',
                     'type' => 'Password',
                     'preview' => false
-                ),
+                )
             ),
             'beforeDelete' => array('Plugin\User\GridHelper', 'beforeDelete'),
             'beforeUpdate' => array('Plugin\User\GridHelper', 'beforeUpdate'),
@@ -41,6 +51,16 @@ class AdminController extends \Ip\GridController
 
         $gridConfig = ipFilter('User_adminGridConfig', $gridConfig);
         return $gridConfig;
+    }
+
+
+    public function loginAsUser($userId)
+    {
+        if (ipUser()->loggedIn()) {
+            ipUser()->logout();
+        }
+        ipUser()->login($userId);
+        return new \Ip\Response\Redirect(ipConfig()->baseUrl());
     }
 
 
