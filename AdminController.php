@@ -28,12 +28,14 @@ class AdminController extends \Ip\GridController
                 array(
                     'label' => __('Id', 'User', false),
                     'field' => 'id',
+                    'allowSearch' => false,
                     'allowUpdate' => false
                 ),
                 array(
                     'label' => __('User name', 'User', false),
                     'field' => 'username',
-                ),                array(
+                ),
+                array(
                     'label' => __('Email', 'User', false),
                     'field' => 'email',
                 ),
