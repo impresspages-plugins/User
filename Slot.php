@@ -37,8 +37,15 @@ class Slot {
         if (ipUser()->loggedIn()) {
             $form = FormModel::profileForm();
             $data = array (
-                'form' => $form
+                'form' => $form,
+                'isProfileUpdated' => false
             );
+
+            if (!empty($_SESSION['user']['profileUpdated'])) {
+                $data['isProfileUpdated'] = true;
+                unset($_SESSION['user']['profileUpdated']);
+            }
+
             return ipView('view/profile.php', $data)->render();
         } else {
             return '';

@@ -212,6 +212,8 @@ class FormModel {
         $form = new \Ip\Form();
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
+        $form->addClass('ipsUserProfileForm');
+
         $field = new \Ip\Form\Field\Hidden(
             array(
                 'name' => 'sa', // HTML "name" attribute

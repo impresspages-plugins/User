@@ -208,6 +208,7 @@ class SiteController extends \Ip\Controller
         );
         ipEvent('User_profileUpdate', $eventData);
 
+        $_SESSION['user']['profileUpdated'] = 1;
 
         $data = array (
             'status' => 'ok',
