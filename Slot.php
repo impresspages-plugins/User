@@ -64,6 +64,26 @@ class Slot {
         }
 
     }
+    public static function User_updatePassword()
+    {
+        if (ipUser()->loggedIn()) {
+            $form = FormModel::passwordUpdateForm();
+            $data = array (
+                'form' => $form,
+                'isPasswordUpdated' => false
+            );
+
+            if (!empty($_SESSION['user']['passwordUpdated'])) {
+                $data['isPasswordUpdated'] = true;
+                unset($_SESSION['user']['passwordUpdated']);
+            }
+
+            return ipView('view/updatePassword.php', $data)->render();
+        } else {
+            return '';
+        }
+
+    }
 
     public static function User_logout()
     {

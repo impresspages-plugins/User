@@ -12,6 +12,12 @@ $routes['passwordReset/{userId}/{secret}'] = array(
     'action' => 'passwordReset2'
 );
 
+$routes['updatePassword'] = array(
+    'name' => 'User_updatePassword',
+    'controller' => 'SiteController',
+    'action' => 'updatePassword'
+);
+
 $routes['registration'] = array(
     'name' => 'User_registration',
     'controller' => 'SiteController',

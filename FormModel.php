@@ -250,6 +250,18 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+        if (class_exists('Ip\Form\Field\Info')) {
+            $field = new \Ip\Form\Field\Info(
+                array(
+                    'name' => 'passwordResetLink', // HTML "name" attribute
+                    'html' => ipView('view/updatePasswordLink.php', array('updatePasswordUrl' => ipRouteUrl('User_updatePassword')))->render()
+                ));
+            $form->addField($field);
+        }
+
+
+
+
         $form = ipFilter('User_profileForm', $form);
 
 
@@ -269,12 +281,13 @@ class FormModel {
     public static function passwordUpdateForm()
     {
         $form = new \Ip\Form();
+        $form->addClass('ipsUserPasswordUpdateForm');
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         $field = new \Ip\Form\Field\Hidden(
             array(
                 'name' => 'sa', // HTML "name" attribute
-                'value' => 'User.updatePassword'
+                'value' => 'User.updatePasswordAjax'
             ));
         $form->addField($field);
 
@@ -282,11 +295,21 @@ class FormModel {
 
         $field = new \Ip\Form\Field\Password(
             array(
-                'name' => 'newPassword', // HTML "name" attribute
-                'label' => __('New password', 'User', false) // Field label that will be displayed next to input field
+                'name' => 'currentPassword', // HTML "name" attribute
+                'label' => __('Current password', 'User', false), // Field label that will be displayed next to input field
             ));
         $field->addvalidator('Required');
         $form->addField($field);
+
+
+        $field = new \Ip\Form\Field\Password(
+            array(
+                'name' => 'newPassword', // HTML "name" attribute
+                'label' => __('New password', 'User', false), // Field label that will be displayed next to input field
+            ));
+        $field->addvalidator('Required');
+        $form->addField($field);
+
 
         $form = ipFilter('User_passwordUpdateForm', $form);
 

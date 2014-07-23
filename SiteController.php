@@ -35,6 +35,14 @@ class SiteController extends \Ip\Controller
         return ipSlot('User_profile');
     }
 
+    public function updatePassword()
+    {
+        if (!ipUser()->loggedIn()) {
+            return new \Ip\Response\Redirect(ipRouteUrl('User_login'));
+        }
+        return ipSlot('User_updatePassword');
+    }
+
     public function register()
     {
         ipRequest()->mustBePost();
@@ -217,6 +225,65 @@ class SiteController extends \Ip\Controller
         return new \Ip\Response\Json($data);
 
 
+    }
+
+    public function updatePasswordAjax()
+    {
+        ipRequest()->mustBePost();
+
+        if (!ipUser()->loggedIn()) {
+            //redirect to login page
+            if (!empty($_SERVER['HTTP_REFERER'])) {
+                Model::setRedirectAfterLogin($_SERVER['HTTP_REFERER']);
+            }
+            $data = array (
+                'status' => 'error',
+                'redirectUrl' => Model::loginUrl()
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+        $post = ipRequest()->getPost();
+
+        $form = FormModel::passwordUpdateForm();
+
+        $errors = $form->validate($post);
+
+        //if password not empty
+        if (!Service::checkPassword(ipUser()->userId(), $post['currentPassword'])) {
+            //if provided current password is incorrect
+            $errors['currentPassword'] = __('Incorrect password', 'User', false);
+        }
+
+        $errors = ipFilter('User_updatePasswordFormValidate', $errors, array('post' => $post));
+
+        if (!empty($errors)) {
+            $data = array (
+                'status' => 'error',
+                'errors' => $errors
+            );
+            return new \Ip\Response\Json($data);
+        }
+
+
+
+        $updateData = array (
+            'password' => $post['newPassword']
+        );
+        Service::update(ipUser()->userId(), $updateData);
+
+        $eventData = array(
+            'postData' => $post
+        );
+        ipEvent('User_passwordUpdate', $eventData);
+
+        $_SESSION['user']['passwordUpdated'] = 1;
+
+        $data = array (
+            'status' => 'ok',
+            'id' => ipUser()->userId()
+        );
+        return new \Ip\Response\Json($data);
     }
 
 
