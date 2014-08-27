@@ -250,6 +250,11 @@ class FormModel {
         $field->addvalidator('Required');
         $form->addField($field);
 
+
+        $form = ipFilter('User_profileForm', $form);
+
+
+
         if (class_exists('Ip\Form\Field\Info')) {
             $field = new \Ip\Form\Field\Info(
                 array(
@@ -260,9 +265,6 @@ class FormModel {
         }
 
 
-
-
-        $form = ipFilter('User_profileForm', $form);
 
 
         $field = new \Ip\Form\Field\Submit(
