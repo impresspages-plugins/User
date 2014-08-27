@@ -255,14 +255,7 @@ class FormModel {
 
 
 
-        if (class_exists('Ip\Form\Field\Info')) {
-            $field = new \Ip\Form\Field\Info(
-                array(
-                    'name' => 'passwordResetLink', // HTML "name" attribute
-                    'html' => ipView('view/updatePasswordLink.php', array('updatePasswordUrl' => ipRouteUrl('User_updatePassword')))->render()
-                ));
-            $form->addField($field);
-        }
+
 
 
 
@@ -273,6 +266,16 @@ class FormModel {
                 'value' => __('Save', 'User', false) // Field label that will be displayed next to input field
             ));
         $form->addField($field);
+
+
+        if (class_exists('Ip\Form\Field\Info')) {
+            $field = new \Ip\Form\Field\Info(
+                array(
+                    'name' => 'passwordResetLink', // HTML "name" attribute
+                    'html' => ipView('view/updatePasswordLink.php', array('updatePasswordUrl' => ipRouteUrl('User_updatePassword')))->render()
+                ));
+            $form->addField($field);
+        }
 
         $form = ipFilter('User_profileForm2', $form);
 
