@@ -140,7 +140,9 @@ class Model{
     public static function checkPassword($userId, $password)
     {
         $user = self::get($userId);
-        return self::checkHash($password, $user['hash']);
+        $answer =  self::checkHash($password, $user['hash']);
+        $answer = ipFilter('User_passwordCheckResult', $answer, array('userId' => $userId, 'password' => $password));
+        return $answer;
     }
 
     private static function passwordHash($password)
