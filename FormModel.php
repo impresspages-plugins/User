@@ -14,6 +14,7 @@ class FormModel {
     {
         $form = new \Ip\Form();
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
+        $form->addClass('ipsUserLoginForm');
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -56,6 +57,7 @@ class FormModel {
     {
         $form = new \Ip\Form();
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
+        $form->addClass('ipsUserRegistrationForm');
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -102,6 +104,8 @@ class FormModel {
     {
         $form = new \Ip\Form();
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
+        $form->addClass('ipsUsePasswordResetForm');
+
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -146,6 +150,8 @@ class FormModel {
     {
         $form = new \Ip\Form();
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
+        $form->addClass('ipsUserPasswordReset2Form');
+
 
         $field = new \Ip\Form\Field\Hidden(
             array(
@@ -331,37 +337,15 @@ class FormModel {
 
     }
 
-    public static function logoutForm()
-    {
-        $form = new \Ip\Form();
-        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
-        $field = new \Ip\Form\Field\Hidden(
-            array(
-                'name' => 'sa', // HTML "name" attribute
-                'value' => 'User.logout'
-            ));
-        $form->addField($field);
-
-        $form = ipFilter('User_logoutForm', $form);
-
-        $field = new \Ip\Form\Field\Submit(
-            array(
-                'name' => 'logout', // HTML "name" attribute
-                'value' => __('Logout', 'User', false) // Field label that will be displayed next to input field
-            ));
-        $form->addField($field);
-
-        $form = ipFilter('User_logoutForm2', $form);
-
-        return $form;
-    }
 
 
     public static function deleteForm()
     {
         $form = new \Ip\Form();
         $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
+        $form->addClass('ipsUserDeleteForm');
+
 
         $field = new \Ip\Form\Field\Hidden(
             array(

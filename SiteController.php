@@ -289,7 +289,6 @@ class SiteController extends \Ip\Controller
 
     public function logout()
     {
-        ipRequest()->mustBePost();
         $userId = ipUser()->userId();
         ipUser()->logout();
 
@@ -303,15 +302,10 @@ class SiteController extends \Ip\Controller
         $data = array(
             'userId' => $userId
         );
-        ipFilter('User_logoutRedirectUrl', $redirect, $data);
+        $redirect = ipFilter('User_logoutRedirectUrl', $redirect, $data);
 
 
-        $data = array (
-            'status' => 'ok',
-            'redirectUrl' => $redirect,
-            'id' => $userId
-        );
-        return new \Ip\Response\Json($data);
+        return new \Ip\Response\Redirect($redirect);
     }
 
     public function loginAjax()

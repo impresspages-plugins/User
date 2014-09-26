@@ -88,9 +88,8 @@ class Slot {
     public static function User_logout()
     {
         if (ipUser()->loggedIn()) {
-            $form = FormModel::logoutForm();
             $data = array (
-                'form' => $form
+                'logoutUrl' => ipRouteUrl('User_logout')
             );
             return ipView('view/logout.php', $data)->render();
         } else {

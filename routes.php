@@ -30,6 +30,12 @@ $routes['login'] = array(
     'action' => 'login'
 );
 
+$routes['logout'] = array(
+    'name' => 'User_logout',
+    'controller' => 'SiteController',
+    'action' => 'logout'
+);
+
 $routes['profile'] = array(
     'name' => 'User_profile',
     'controller' => 'SiteController',
