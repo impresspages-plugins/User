@@ -1,3 +1,4 @@
+<?php echo ipRenderWidget('Heading', array('title' => __('Login', 'User', false))) ?>
 <?php echo $form->render() ?>
 <a class="ipUserRegistrationLink" href="<?php echo escAttr($registrationUrl) ?>"><?php _e('Register', 'User') ?></a>
 </br>
