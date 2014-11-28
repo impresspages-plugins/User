@@ -23,9 +23,7 @@ CREATE TABLE IF NOT EXISTS $table (
   `email` varchar(255) NOT NULL DEFAULT '',
   `resetSecret` varchar(32) DEFAULT NULL,
   `resetTime` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
       ";
         ipDb()->execute($sql);
@@ -57,9 +55,9 @@ CREATE TABLE IF NOT EXISTS $table (
             ipDb()->execute($sql);
         }
 
-        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'deleted'));
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'isDeleted'));
         if (!$result) {
-            $sql = "ALTER TABLE $table ADD `deleted` INT(1) NOT NULL DEFAULT 0;";
+            $sql = "ALTER TABLE $table ADD `isDeleted` INT(1) NOT NULL DEFAULT 0;";
             ipDb()->execute($sql);
         }
 
@@ -70,14 +68,32 @@ CREATE TABLE IF NOT EXISTS $table (
         }
 
 
-        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'deletedAt'));
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'isVerified'));
         if (!$result) {
-            $sql = "ALTER TABLE $table ADD `deletedAt` timestamp NULL DEFAULT NULL;";
+            $sql = "ALTER TABLE $table ADD `isVerified` timestamp NULL DEFAULT NULL;";
             ipDb()->execute($sql);
         }
 
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'verifiedAt'));
+        if (!$result) {
+            $sql = "ALTER TABLE $table ADD `verifiedAt` timestamp NULL DEFAULT NULL;";
+            ipDb()->execute($sql);
+        }
 
+        try {
+            ipDb()->execute("DROP INDEX `username` ON $table ");
+        } catch (\Exception $e) {
+            //ignore. We don't care if index doesn't exist. We will create it over again
+        }
 
+        try {
+            ipDb()->execute("DROP INDEX `email` ON $table ");
+        } catch (\Exception $e) {
+            //ignore. We don't care if index doesn't exist. We will create it over again
+        }
+
+        ipDb()->execute("ALTER TABLE $table ADD KEY `username` (`username`) ");
+        ipDb()->execute("ALTER TABLE $table ADD KEY `email` (`email`) ");
 
     }
 
