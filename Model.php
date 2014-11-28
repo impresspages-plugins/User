@@ -13,24 +13,24 @@ class Model{
 
     public static function getAll()
     {
-        return ipDb()->selectAll('user', '*', array('deleted' => 0), 'ORDER BY `id` ASC');
+        return ipDb()->selectAll('user', '*', array('isDeleted' => 0), 'ORDER BY `id` ASC');
     }
 
     public static function delete($id)
     {
         ipEvent('User_beforeDelete', array('id' => $id));
-        ipDb()->update('user', array('deleted' => 1, 'deletedAt' => date('Y-m-d H:i:s')), array('id' => $id));
+        ipDb()->update('user', array('isDeleted' => 1, 'deletedAt' => date('Y-m-d H:i:s')), array('id' => $id));
         ipEvent('User_deleted', array('id' => $id));
     }
 
     public static function getByUsername($username)
     {
-        return ipDb()->selectRow('user', '*', array('username' => $username, 'deleted' => 0));
+        return ipDb()->selectRow('user', '*', array('username' => $username, 'isDeleted' => 0));
     }
 
     public static function getByEmail($email)
     {
-        return ipDb()->selectRow('user', '*', array('email' => $email, 'deleted' => 0));
+        return ipDb()->selectRow('user', '*', array('email' => $email, 'isDeleted' => 0));
     }
 
     public static function addUser($username, $email, $password)
