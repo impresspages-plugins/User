@@ -30,6 +30,55 @@ CREATE TABLE IF NOT EXISTS $table (
       ";
         ipDb()->execute($sql);
 
+
+        //add title column if not exist
+        $checkSql = "
+        SELECT
+          *
+        FROM
+          information_schema.COLUMNS
+        WHERE
+            TABLE_SCHEMA = :database
+            AND TABLE_NAME = :table
+            AND COLUMN_NAME = :column
+        ";
+
+
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'createdAt'));
+        if (!$result) {
+            $sql = "ALTER TABLE $table ADD `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP;";
+            ipDb()->execute($sql);
+        }
+
+
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'lastActiveAt'));
+        if (!$result) {
+            $sql = "ALTER TABLE $table ADD `lastActiveAt` timestamp NULL DEFAULT NULL;";
+            ipDb()->execute($sql);
+        }
+
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'deleted'));
+        if (!$result) {
+            $sql = "ALTER TABLE $table ADD `deleted` INT(1) NOT NULL DEFAULT 0;";
+            ipDb()->execute($sql);
+        }
+
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'deletedAt'));
+        if (!$result) {
+            $sql = "ALTER TABLE $table ADD `deletedAt` timestamp NULL DEFAULT NULL;";
+            ipDb()->execute($sql);
+        }
+
+
+        $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'deletedAt'));
+        if (!$result) {
+            $sql = "ALTER TABLE $table ADD `deletedAt` timestamp NULL DEFAULT NULL;";
+            ipDb()->execute($sql);
+        }
+
+
+
+
     }
 
     public function deactivate()

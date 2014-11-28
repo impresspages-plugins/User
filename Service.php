@@ -67,15 +67,15 @@ class Service
     {
         Model::delete($id);
     }
-    
+
     public static function login($id)
     {
-        ipUser()->login($id);
+        Model::login($id);
     }
-    
+
     public static function logout()
     {
         ipUser()->logout();
-    }    
+    }
 
 }

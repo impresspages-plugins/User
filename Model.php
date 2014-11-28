@@ -13,24 +13,24 @@ class Model{
 
     public static function getAll()
     {
-        return ipDb()->selectAll('user', '*', array(), 'ORDER BY `id` ASC');
+        return ipDb()->selectAll('user', '*', array('deleted' => 0), 'ORDER BY `id` ASC');
     }
 
     public static function delete($id)
     {
         ipEvent('User_beforeDelete', array('id' => $id));
-        ipDb()->delete('user', array('id' => $id));
+        ipDb()->update('user', array('deleted' => 1, 'deletedAt' => date('Y-m-d H:i:s')), array('id' => $id));
         ipEvent('User_deleted', array('id' => $id));
     }
 
     public static function getByUsername($username)
     {
-        return ipDb()->selectRow('user', '*', array('username' => $username));
+        return ipDb()->selectRow('user', '*', array('username' => $username, 'deleted' => 0));
     }
 
     public static function getByEmail($email)
     {
-        return ipDb()->selectRow('user', '*', array('email' => $email));
+        return ipDb()->selectRow('user', '*', array('email' => $email, 'deleted' => 0));
     }
 
     public static function addUser($username, $email, $password)
@@ -47,7 +47,7 @@ class Model{
     public static function sendResetPasswordLink($userId)
     {
         $user = self::get($userId);
-        if (!$user) {
+        if (!$user || $user['isDeleted']) {
             throw new \Ip\Exception("User doesn't exist");
         }
 
@@ -99,7 +99,7 @@ class Model{
     public static function validPasswordResetSecret($userId, $secret)
     {
         $user = self::get($userId);
-        if (!$user) {
+        if (!$user || $user['isDeleted']) {
             self::$lastError = __('User doesn\'t exist', 'User', false);
             return false;
         }
@@ -140,7 +140,12 @@ class Model{
     public static function checkPassword($userId, $password)
     {
         $user = self::get($userId);
+        if (!$user || $user['isDeleted']) {
+            return false;
+        }
+
         $answer =  self::checkHash($password, $user['hash']);
+
         $answer = ipFilter('User_passwordCheckResult', $answer, array('userId' => $userId, 'password' => $password));
         return $answer;
     }
@@ -186,5 +191,16 @@ class Model{
     public static function getError()
     {
         return self::$lastError;
+    }
+
+    public static function login($id)
+    {
+        $user = self::get($id);
+        if (!$user || $user['isDeleted']) {
+            return false;
+        }
+        ipDb()->update('user', array('lastActiveAt' => date('Y-m-d H:i:s')), array('id' => $id));
+        ipUser()->login($id);
+        return true;
     }
 }
