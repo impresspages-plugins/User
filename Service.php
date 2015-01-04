@@ -75,6 +75,9 @@ class Service
 
     public static function logout()
     {
+        if (ipUser()->userId()) {
+            ipEvent('User_logout', array('id' => ipUser()->userId()));
+        }
         ipUser()->logout();
     }
 

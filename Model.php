@@ -40,8 +40,12 @@ class Model{
             'email' => $email,
             'hash' => self::passwordHash($password)
         );
+        $id = ipDb()->insert('user', $data);
+
+        $data['id'] = $id;
         ipEvent('User_created', $data);
-        return ipDb()->insert('user', $data);
+
+        return $id;
     }
 
     public static function sendResetPasswordLink($userId)
@@ -201,6 +205,7 @@ class Model{
         }
         ipDb()->update('user', array('lastActiveAt' => date('Y-m-d H:i:s')), array('id' => $id));
         ipUser()->login($id);
+        ipEvent('User_login', array('id' => $id));
         return true;
     }
 }

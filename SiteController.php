@@ -84,7 +84,8 @@ class SiteController extends \Ip\Controller
             'username' => $username,
             'email' => $email,
             'password' => $password,
-            'postData' => $post
+            'postData' => $post,
+            'id' => $userId
         );
         ipEvent('User_register', $eventData);
 
@@ -144,7 +145,7 @@ class SiteController extends \Ip\Controller
 
 
         $eventData = array (
-            'userId' => ipUser()->userId()
+            'id' => ipUser()->userId()
         );
 
         ipEvent('User_delete', $eventData);
