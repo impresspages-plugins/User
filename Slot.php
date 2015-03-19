@@ -14,14 +14,13 @@ class Slot
     {
         if (ipUser()->loggedIn()) {
             $data = array (
-                'data' => ipUser()->data(),
                 'profileUrl' => ipRouteUrl('User_profile'),
                 'logoutUrl' => ipRouteUrl('User_logout')
             );
             return ipView('view/loggedInStatus.php', $data)->render();
         } else {
             $data = array (
-                'loginUrl' => ipRouteUrl('User_passwordReset1'),
+                'loginUrl' => ipRouteUrl('User_login'),
                 'registrationUrl' => ipRouteUrl('User_registration')
             );
             return ipView('view/loggedOutStatus.php', $data)->render();
