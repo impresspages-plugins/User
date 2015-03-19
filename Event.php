@@ -13,5 +13,6 @@ class Event
     public static function ipBeforeController()
     {
         ipAddJs('assets/user.js');
+        ipAddCss('assets/user.css');
     }
 }
