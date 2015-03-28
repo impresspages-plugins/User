@@ -39,11 +39,13 @@ class AdminController extends \Ip\GridController
                 array(
                     'label' => __('Email', 'User', false),
                     'field' => 'email',
+                    'attributes' => array('autocomplete' => 'off'),
                 ),
                 array(
                     'label' => __('Password', 'User', false),
                     'field' => 'hash',
                     'type' => 'Password',
+                    'attributes' => array('autocomplete' => 'off'),
                     'preview' => false
                 )
             ),
