@@ -34,6 +34,7 @@ class AdminController extends \Ip\GridController
                 array(
                     'label' => __('User name', 'User', false),
                     'field' => 'username',
+                    'transformations' => array('NullIfEmpty')
                 ),
                 array(
                     'label' => __('Email', 'User', false),
