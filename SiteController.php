@@ -357,7 +357,7 @@ class SiteController extends \Ip\Controller
         $data = array(
             'userId' => $user['id']
         );
-        ipFilter('User_loginRedirectUrl', $redirect, $data);
+        $redirect = ipFilter('User_loginRedirectUrl', $redirect, $data);
 
 
         $data = array (
