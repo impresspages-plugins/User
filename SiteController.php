@@ -11,11 +11,15 @@ class SiteController extends \Ip\Controller
 {
     public function login()
     {
+        ipResponse()->setTitle(__('Login', 'User', false));
+
         return ipSlot('User_login');
     }
 
     public function registration()
     {
+        ipResponse()->setTitle(__('Registration', 'User', false));
+
         if (ipUser()->loggedIn()) {
             return new \Ip\Response\Redirect(ipRouteUrl('User_profile'));
         }
@@ -24,11 +28,14 @@ class SiteController extends \Ip\Controller
 
     public function passwordReset()
     {
+        ipResponse()->setTitle(__('Password reset', 'User', false));
+
         return ipSlot('User_passwordReset');
     }
 
     public function profile()
     {
+        ipResponse()->setTitle(__('Profile', 'User', false));
         if (!ipUser()->loggedIn()) {
             return new \Ip\Response\Redirect(ipRouteUrl('User_login'));
         }
@@ -37,6 +44,7 @@ class SiteController extends \Ip\Controller
 
     public function updatePassword()
     {
+        ipResponse()->setTitle(__('Update password', 'User', false));
         if (!ipUser()->loggedIn()) {
             return new \Ip\Response\Redirect(ipRouteUrl('User_login'));
         }
@@ -45,6 +53,7 @@ class SiteController extends \Ip\Controller
 
     public function register()
     {
+
         ipRequest()->mustBePost();
         $post = ipRequest()->getPost();
 
@@ -429,6 +438,8 @@ class SiteController extends \Ip\Controller
 
     public function passwordReset2($userId, $secret)
     {
+        ipResponse()->setTitle(__('Password reset', 'User', false));
+
         $passwordResetForm = FormModel::passwordResetForm2($userId, $secret);
 
         $data = array (
