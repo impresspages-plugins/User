@@ -230,6 +230,7 @@ class SiteController extends \Ip\Controller
 
         $data = array (
             'status' => 'ok',
+            'reload' => true,
             'id' => $user['id']
         );
         return new \Ip\Response\Json($data);
