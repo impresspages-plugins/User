@@ -70,8 +70,22 @@ CREATE TABLE IF NOT EXISTS $table (
 
         $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'isVerified'));
         if (!$result) {
-            $sql = "ALTER TABLE $table ADD `isVerified` timestamp NULL DEFAULT NULL;";
+            $sql = "ALTER TABLE $table ADD `isVerified` INT(1) NOT NULL DEFAULT 0;";
             ipDb()->execute($sql);
+        } else {
+        	$table_schema = current($result);
+        	if(is_array($table_schema) && isset($table_schema['COLUMN_TYPE']) && $table_schema['COLUMN_TYPE'] == 'timestamp'){
+        		$sql_alter = "ALTER TABLE $table CHANGE `isVerified` `isVerified` INT(1) NOT NULL DEFAULT 0;";
+        		$sql_update = "UPDATE $table SET `isVerified` = 1 WHERE `isVerified` > 0;";
+        		
+        		try {
+        			$resultAffected = ipDb()->execute($sql_alter);
+        			$resultUpdated = ipDb()->execute($sql_update);
+        			ipLog()->info('Updated table schema for user table column "isVerified" from TIMESTAMP to INT(1)', array('affectedRows' => $resultAffected, 'updatedRows' => $resultUpdated));
+        		} catch (\Exception $e) {
+        			ipLog()->critical('Table schema for user table column "isVerified" could not be updated to INT(1)', array($e->getCode() => $e->getMessage()));
+        		}
+        	}
         }
 
         $result = ipDb()->fetchAll($checkSql, array('database' => ipConfig()->database(), 'table' => ipConfig()->tablePrefix() . 'user', 'column' => 'verifiedAt'));

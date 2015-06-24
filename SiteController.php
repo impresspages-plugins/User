@@ -105,7 +105,7 @@ class SiteController extends \Ip\Controller
         }
 
 
-        ipFilter('User_registrationRedirectUrl', $redirect, $eventData);
+        $redirect = ipFilter('User_registrationRedirectUrl', $redirect, $eventData);
 
 
         $data = array (
@@ -164,7 +164,7 @@ class SiteController extends \Ip\Controller
         Service::delete($userId);
 
         $redirect = ipConfig()->baseUrl();
-        ipFilter('User_deleteRedirectUrl', $redirect, $eventData);
+        $redirect = ipFilter('User_deleteRedirectUrl', $redirect, $eventData);
 
 
         $data = array (
