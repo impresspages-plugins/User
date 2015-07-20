@@ -28,7 +28,7 @@ class AdminController extends \Ip\GridController
                 array(
                     'label' => __('Id', 'User', false),
                     'field' => 'id',
-                    'allowSearch' => false,
+                    'allowSearch' => true,
                     'allowUpdate' => false
                 ),
                 array(
