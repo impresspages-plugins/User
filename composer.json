@@ -1,0 +1,12 @@
+{
+  "name": "impresspages/plugin-user",
+  "version": "2.06",
+  "autoload": {
+    "psr-4": {"Plugin\\User\\": "/"}
+  },
+  "minimum-stability": "stable",
+  "license": [
+    "MIT",
+    "GPL-3.0+"
+  ]
+}
