@@ -7,10 +7,15 @@
 namespace Plugin\User;
 
 
+use Ip\Response\Redirect;
+
 class SiteController extends \Ip\Controller
 {
     public function login()
     {
+        if (ipUser()->isLoggedIn()) {
+            return new Redirect(Model::redirectUrl(ipUser()->userId()));
+        }
         ipResponse()->setTitle(__('Login', 'User', false));
 
         return ipSlot('User_login');
@@ -352,23 +357,7 @@ class SiteController extends \Ip\Controller
 
         ipUser()->login($user['id']);
 
-        $redirect = ipConfig()->baseUrl();
-
-        if (ipGetOption('User.urlAfterLogin')) {
-            $redirect = ipGetOption('User.urlAfterLogin');
-        }
-
-
-
-        if (isset($_SESSION['User_redirectAfterLogin'])) {
-            $redirect = $_SESSION['User_redirectAfterLogin'];
-            unset($_SESSION['User_redirectAfterLogin']);
-        }
-        $data = array(
-            'userId' => $user['id']
-        );
-        $redirect = ipFilter('User_loginRedirectUrl', $redirect, $data);
-
+        $redirect = Model::redirectUrl($user['id']);
 
         $data = array (
             'status' => 'ok',

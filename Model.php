@@ -208,4 +208,25 @@ class Model{
         ipEvent('User_login', array('id' => $id));
         return true;
     }
+
+    public static function redirectUrl($userId)
+    {
+        $redirect = ipConfig()->baseUrl();
+
+        if (ipGetOption('User.urlAfterLogin')) {
+            $redirect = ipGetOption('User.urlAfterLogin');
+        }
+
+
+
+        if (isset($_SESSION['User_redirectAfterLogin'])) {
+            $redirect = $_SESSION['User_redirectAfterLogin'];
+            unset($_SESSION['User_redirectAfterLogin']);
+        }
+        $data = array(
+            'userId' => $userId
+        );
+        $redirect = ipFilter('User_loginRedirectUrl', $redirect, $data);
+        return $redirect;
+    }
 }
