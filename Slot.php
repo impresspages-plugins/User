@@ -76,7 +76,8 @@ class Slot
         } else {
             $form = FormModel::registrationForm();
             $data = array (
-                'form' => $form
+                'form' => $form,
+                'loginUrl' => ipRouteUrl('User_login')
             );
             return ipView('view/registration.php', $data)->render();
         }
